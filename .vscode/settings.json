@@ -1,0 +1,7 @@
+{
+    "ros_workspace": "ros_abb_ws",
+    "python.analysis.extraPaths": [
+        "/usr/bin/python3",
+        "/usr/bin/python3.12",
+    ]
+}
