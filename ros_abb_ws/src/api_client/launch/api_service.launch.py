@@ -14,6 +14,7 @@ def generate_launch_description() -> LaunchDescription:
             "robot_host": "http://localhost:9900",
             "username": os.getenv("ROBOT_USERNAME", "robotics"),
             "password": os.getenv("ROBOT_PASSWORD", "robotics"),
+            "auth_type": 'basic',
             "header": json.dumps(
                 {
                     "Accept": "application/hal+json;v=2.0",

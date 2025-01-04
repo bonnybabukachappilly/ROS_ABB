@@ -5,4 +5,6 @@ string header
 int32 code
 ---
 bool success
+string cookies
+string header
 string response

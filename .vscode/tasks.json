@@ -135,6 +135,28 @@
             },
             "problemMatcher": []
         },
+        {
+            "label": "Launch: robot_controller | controller",
+            "type": "shell",
+            "linux": {
+                "command": "source ./install/setup.bash && ros2 launch robot_controller robot_controller.launch.py"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Launch: websocket_client | ws_client",
+            "type": "shell",
+            "linux": {
+                "command": "source ./install/setup.bash && ros2 launch websocket_client websocket_client.launch.py"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
+            },
+            "problemMatcher": []
+        },
         // RUNNING PROGRAMS GROUPS
     ],
     "inputs": [

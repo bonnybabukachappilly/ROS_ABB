@@ -6,7 +6,7 @@ from robot_controller.utils.models import APISubscriptionRequest
 
 def create_subscription() -> APISubscriptionRequest:
     _headers: dict[str, str] = {
-        "Accept": "application/hal+json;v=2.0",
+        "Accept": "application/xhtml+xml;v=2.0",
         "Content-Type": "application/x-www-form-urlencoded;v=2.0",
     }
 
@@ -39,7 +39,9 @@ def create_subscription() -> APISubscriptionRequest:
         _subscription_request[f'{_key}-p'] = "1"
 
     return APISubscriptionRequest(
-        api_type="post",
-        api_request=_subscription_request,
-        api_headers=_headers
+        api_type="POST",
+        api_data=_subscription_request,
+        api_url=URLMapping.subscription.value,
+        api_headers=_headers,
+        api_code=201
     )

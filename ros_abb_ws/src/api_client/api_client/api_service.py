@@ -115,11 +115,13 @@ class ApiClient(Node):
             APIRequests.Response: The modified response object.
 
         """
-        api_type: str = request.api_type
-        url: str = request.url
-        headers: str = request.headers
+        api_type: str = request.type
         data: str = request.data
+        url: str = request.url
+        headers: str = request.header
         code: str = request.code
+
+        self.get_logger().info('Request received')
 
         api_request: Callable[..., Response] | None = self.__get_api_type(
             api_type=api_type
@@ -129,15 +131,24 @@ class ApiClient(Node):
             return self.__api_request_failed(
                 response, 'Invalid API type'
             )
-        api_response: Response = api_request(url, data, headers)
+        api_response: Response = api_request(
+            url, json.loads(data), json.loads(headers))
+
+        self.get_logger().info(f'Response status : {api_response.status_code}')
 
         if api_response.status_code != code:
             return self.__api_request_failed(
-                response, 'API request failed'
+                response, response.response
             )
 
+        cookies = {
+            cookie.name: cookie.value for cookie in api_response.cookies
+        }
+
         response.success = True
-        response.response = json.dumps(api_response.content.decode('utf-8'))
+        response.cookies = json.dumps(cookies)
+        response.header = json.dumps(dict(api_response.headers))
+        response.response = api_response.content.decode('utf-8')
 
         return response
 

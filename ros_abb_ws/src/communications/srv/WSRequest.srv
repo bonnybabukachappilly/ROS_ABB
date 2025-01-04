@@ -1,0 +1,5 @@
+string url
+string header
+string protocol
+---
+bool success
