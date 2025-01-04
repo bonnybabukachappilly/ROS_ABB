@@ -1,0 +1,8 @@
+string type
+string data
+string url
+string header
+int32 code
+---
+bool success
+string response

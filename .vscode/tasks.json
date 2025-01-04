@@ -33,6 +33,36 @@
             "problemMatcher": []
         },
         {
+            "label": "Colcon: Build Pkg",
+            "type": "shell",
+            "linux": {
+                "command": "colcon build --packages-select ${input:ros_build_pkg}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Colcon: Build Pkg [Symlink]",
+            "type": "shell",
+            "linux": {
+                "command": "colcon build --packages-select ${input:ros_build_pkg} --symlink-install"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Colcon: Clean Build",
             "type": "shell",
             "linux": {
@@ -95,43 +125,10 @@
         },
         // RUNNING PROGRAMS
         {
-            "label": "mqtt_client: MQTT Publisher",
+            "label": "Launch: api_client | api_service",
             "type": "shell",
             "linux": {
-                "command": "source ./install/setup.bash && ros2 run mqtt_client mqtt_publisher"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "rws_client: RWS Client",
-            "type": "shell",
-            "linux": {
-                "command": "source ./install/setup.bash && ros2 run rws_client rws_client"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "rws_client: RWS Client [Launch]",
-            "type": "shell",
-            "linux": {
-                "command": "source ./install/setup.bash && ros2 launch rws_client abb_rws.launch.py"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "abb_gofa_description: GoFa description",
-            "type": "shell",
-            "linux": {
-                "command": "source ./install/setup.bash && ros2 launch abb_gofa_description abb_gofa_description.launch.py"
+                "command": "source ./install/setup.bash && ros2 launch api_client api_service.launch.py"
             },
             "options": {
                 "cwd": "${workspaceFolder}/${config:ros_workspace}/"
@@ -146,6 +143,13 @@
             "type": "promptString",
             "description": "ROS build type",
             "default": "ament_python"
+            // ament_cmake ament_python
+        },
+        {
+            "id": "ros_build_pkg",
+            "type": "promptString",
+            "description": "ROS build package",
+            "default": ""
             // ament_cmake ament_python
         },
         {
