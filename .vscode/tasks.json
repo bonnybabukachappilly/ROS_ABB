@@ -63,6 +63,36 @@
             "problemMatcher": []
         },
         {
+            "label": "Colcon: Build Pkg Ignore",
+            "type": "shell",
+            "linux": {
+                "command": "colcon build --packages-ignore  ${input:ros_ignore_pkg}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Colcon: Build Pkg Ignore [Symlink]",
+            "type": "shell",
+            "linux": {
+                "command": "colcon build --packages-ignore  ${input:ros_ignore_pkg} --symlink-install"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Colcon: Clean Build",
             "type": "shell",
             "linux": {
@@ -172,6 +202,13 @@
             "type": "promptString",
             "description": "ROS build package",
             "default": ""
+            // ament_cmake ament_python
+        },
+        {
+            "id": "ros_ignore_pkg",
+            "type": "promptString",
+            "description": "ROS ignore package",
+            "default": "communications"
             // ament_cmake ament_python
         },
         {
