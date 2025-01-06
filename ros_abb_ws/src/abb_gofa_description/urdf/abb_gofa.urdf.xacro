@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot name="gofa"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find abb_gofa_description)/urdf/gofa.xacro" />
+
+    <xacro:abb_gofa_12 prefix=""/>
+
+</robot>
