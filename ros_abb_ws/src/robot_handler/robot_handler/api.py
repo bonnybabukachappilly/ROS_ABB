@@ -17,7 +17,30 @@ from robot_handler.common.logger import create_logger, get_logger
 
 
 class APIServiceHandler(Node):
+    """
+    Class representing the API service handler.
+
+    This class handles the API service requests and provides the necessary
+    functionality to process the requests and generate the corresponding
+    responses.
+
+    Args:
+        Node: The base class for creating a ROS node.
+
+    Attributes:
+        api (APIClient):
+            The API client used for making API requests.
+        api_service (Service):
+            The ROS service for handling API requests.
+    """
+
     def __init__(self) -> None:
+        """
+        Initialize the API service handler.
+
+        This method sets up the API connection and initializes the API client.
+        It also creates a service for handling API requests.
+        """
         super().__init__('api_service_handler')
 
         api_username: str = os.getenv('ROBOT_USERNAME', '')
@@ -51,6 +74,21 @@ class APIServiceHandler(Node):
         get_logger().info(f'api_username: {api_username}')
 
     def __get_url(self, key: str) -> str:
+        """
+        Get the URL based on the provided key.
+
+        Args:
+            key (str):
+                The key to determine the URL.
+
+        Returns:
+            str:
+                The URL corresponding to the provided key.
+
+        Raises:
+            ValueError:
+                If the key is invalid.
+        """
         match key:
             case 'speedratio':
                 return "/rw/panel/speedratio"
@@ -66,6 +104,23 @@ class APIServiceHandler(Node):
                 raise ValueError('Invalid key')
 
     def api_service_callback(self, request, response) -> APISrvReq.Response:
+        """
+        Callback function for the API service.
+
+        Args:
+            request:
+                The request object containing the key.
+            response:
+                The response object to be filled.
+
+        Returns:
+            APISrvReq.Response:
+                The response object with the result of the API request.
+
+        Raises:
+            ValueError:
+                If the key is invalid.
+        """
 
         try:
             _url: str = self.__get_url(request.key)
@@ -111,12 +166,33 @@ class APIServiceHandler(Node):
     def srv_response(
             self, response: APISrvReq.Response,
             status: bool, msg: str) -> APISrvReq.Response:
+        """
+        Sets the status and message of the response object and returns it.
+
+        Args:
+            response (APISrvReq.Response):
+                The response object to modify.
+            status (bool):
+                The status value to set.
+            msg (str):
+                The message to set.
+
+        Returns:
+            APISrvReq.Response:
+                The modified response object.
+        """
         response.status = status
         response.message = msg
         return response
 
 
 def main(args=None) -> None:
+    """
+    Entry point of the program.
+
+    Args:
+        args (List[str], optional): Command-line arguments. Defaults to None.
+    """
     load_dotenv()
     create_logger()
 

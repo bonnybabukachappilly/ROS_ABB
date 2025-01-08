@@ -7,6 +7,16 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description() -> LaunchDescription:
+    """Generate the launch description for the websocket handler.
+
+    This function creates and configures the launch description for the
+    `websocket_handler` node, loading parameters from a YAML file and
+    remapping the `robot_logs` topic to `mqtt_publish`.
+
+    Returns:
+        LaunchDescription: The launch description object.
+    """
+
     launch_dec = LaunchDescription()
 
     # Path to the YAML file

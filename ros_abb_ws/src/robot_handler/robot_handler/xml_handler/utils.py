@@ -13,14 +13,45 @@ from robot_handler.common.mappings import (
 
 
 class ParserCollections:
+    """
+    A collection of XML parsing utility methods.
+
+    Args:
+        api (APIClientModel):
+            An instance of the APIClientModel class.
+
+    Attributes:
+        __api (APIClientModel):
+            An instance of the APIClientModel class.
+
+    """
 
     def __init__(self, api: APIClientModel) -> None:
+        """
+        Initializes a new instance of the Utils class.
+
+        Args:
+            api (APIClientModel):
+                An instance of the APIClientModel class.
+        """
         self.__api: APIClientModel = api
 
     def __format_data(
             self, response: Response | None,
             model: dict[str, str]) -> dict[str, Any] | None:
+        """
+        Formats the response data based on the provided model.
 
+        Args:
+            response (Response | None):
+                The response object containing the data.
+                model (dict[str, str]): The model to format the data.
+
+        Returns:
+            dict[str, Any] | None:
+                The processed data dictionary or None if the response is None
+                or the data is not available.
+        """
         if response is None:
             return None
 
@@ -36,9 +67,25 @@ class ParserCollections:
         return processed_data
 
     def state_parser(
-            self, tag: str, et: Element,
-            ns: dict[str, str]) -> dict[str, Any] | None:
+        self, tag: str, et: Element, ns: dict[str, str]
+    ) -> dict[str, Any] | None:
+        """
+        Parses the XML element and extracts the value of the specified tag.
 
+        Args:
+            tag (str):
+                The tag to search for within the XML element.
+            et (Element):
+                The XML element to parse.
+            ns (dict[str, str]):
+                The namespace dictionary for XML element.
+
+        Returns:
+            dict[str, Any] | None:
+                A dictionary containing the tag as the key and its value,
+                or None if the tag is not found.
+
+        """
         span_element: list[Element] = et.findall(".//xhtml:span", ns)
         for element in span_element:
             if element is not None:
@@ -51,9 +98,24 @@ class ParserCollections:
         return None
 
     def elog_parser(
-            self, tag: str, et: Element,
-            ns: dict[str, str]) -> dict[str, Any] | None:
+        self, tag: str, et: Element, ns: dict[str, str]
+    ) -> dict[str, Any] | None:
+        """
+        Parses the elog XML element and returns the parsed data as a
+        dictionary.
 
+        Args:
+            tag (str):
+                The tag name of the elog XML element.
+            et (Element):
+                The elog XML element to be parsed.
+            ns (dict[str, str]):
+                The namespace dictionary for the XML element.
+
+        Returns:
+            dict[str, Any] | None:
+                The parsed data as a dictionary, or None if parsing fails.
+        """
         _id: dict[str, Any] | None = self.state_parser(tag=tag, et=et, ns=ns)
 
         if _id is None:
@@ -82,6 +144,20 @@ class ParserCollections:
     def energy_parser(
             self, _: Element,
             ns: dict[str, str]) -> dict[str, Any] | None:
+        """
+        Parses the energy data from the API response and formats it.
+
+        Args:
+            _:
+                The XML element (not used in this method).
+            ns:
+                A dictionary containing namespace mappings
+                (not used in this method).
+
+        Returns:
+            A dictionary containing the formatted energy data,
+            or None if the API request fails.
+        """
         del ns
 
         request = APIRequest(

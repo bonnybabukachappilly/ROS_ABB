@@ -7,6 +7,15 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description() -> LaunchDescription:
+    """Generate the launch description for the API service.
+
+    This function creates and configures the launch description for the
+    `api_service_handler` node, including loading parameters from a YAML file.
+
+    Returns:
+        LaunchDescription: The launch description object.
+    """
+
     launch_dec = LaunchDescription()
 
     # Path to the YAML file
