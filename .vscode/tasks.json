@@ -155,6 +155,28 @@
         },
         // RUNNING PROGRAMS
         {
+            "label": "Launch: robot_handler | websocket_handler",
+            "type": "shell",
+            "linux": {
+                "command": "source ./install/setup.bash && ros2 launch robot_handler websocket.launch.py"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Launch: robot_handler | api_service_handler",
+            "type": "shell",
+            "linux": {
+                "command": "source ./install/setup.bash && ros2 launch robot_handler api_service.launch.py"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/${config:ros_workspace}/"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Launch: api_client | api_service",
             "type": "shell",
             "linux": {
