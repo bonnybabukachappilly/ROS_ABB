@@ -9,15 +9,6 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description() -> LaunchDescription:
-    """Generate the launch description for the API service.
-
-    This function creates and configures the launch description for the
-    `api_service_handler` node, including loading parameters from a JSON file.
-
-    Returns:
-        LaunchDescription: The launch description object.
-    """
-
     launch_dec = LaunchDescription()
 
     # Path to the config file
@@ -38,6 +29,7 @@ def generate_launch_description() -> LaunchDescription:
         'websocket.subscriptions': configuration['urls']['subscriptions'],
     }
 
+    # API SERVICES
     api_service_handler = Node(
         package='robot_handler',
         executable='api_service_handler',
@@ -46,7 +38,19 @@ def generate_launch_description() -> LaunchDescription:
         on_exit=Shutdown(),
     )
 
-    # Add the node to the launch description
+    # WEBSOCKET
+    websocket_handler = Node(
+        package='robot_handler',
+        executable='websocket_handler',
+        name='websocket_handler',
+        parameters=[node_config],
+        on_exit=Shutdown(),
+        remappings=[
+            ("robot_logs", "/mqtt_publish")
+        ]
+    )
+
     launch_dec.add_action(api_service_handler)
+    launch_dec.add_action(websocket_handler)
 
     return launch_dec

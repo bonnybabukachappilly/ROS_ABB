@@ -40,6 +40,7 @@ setup(
         'console_scripts': [
             'websocket_handler = robot_handler.ws:main',
             'api_service_handler = robot_handler.api:main',
+            'mqtt_service_handler = robot_handler.mqtt:main',
         ],
     },
 )

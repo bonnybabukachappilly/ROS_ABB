@@ -1,0 +1,12 @@
+---
+mqtt_service_handler:
+  ros__parameters:
+    mqtt:
+      broker: "dashpi.local"
+      port: 1883
+      timeout: 60
+      publish:
+        telemetry: "v1/devices/me/telemetry"
+        attributes: "v1/devices/me/attributes"
+        qos: 1
+      

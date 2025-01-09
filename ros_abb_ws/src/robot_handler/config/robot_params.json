@@ -1,0 +1,48 @@
+{
+    "urls": {
+        "base_url": "localhost:9900",
+        "system_info": "/rw/system",
+        "subscribe": "/subscription",
+        "joint_target": "/rw/motionsystem/mechunits/ROB_1/jointtarget",
+        "subscriptions": [
+            "/rw/panel/speedratio",
+            "/rw/panel/ctrl-state",
+            "/rw/panel/opmode",
+            "/rw/rapid/execution;ctrlexecstate",
+            "/rw/rapid/execution;rapidexeccycle",
+            "/rw/elog/0",
+            "/rw/elog/1",
+            "/rw/elog/2",
+            "/rw/elog/3",
+            "/rw/elog/4",
+            "/rw/elog/5",
+            "/rw/elog/7",
+            "/rw/elog/8",
+            "/rw/elog/9",
+            "/rw/elog/10",
+            "/rw/elog/11",
+            "/rw/elog/12",
+            "/rw/elog/13",
+            "/rw/elog/15",
+            "/rw/elog/17",
+            "/rw/system/energy"
+        ],
+        "mqtt": {
+            "subscribe": "v1/devices/me/attributes/response/+",
+            "attribute": "v1/devices/me/attributes",
+            "telemetry": "v1/devices/me/telemetry"
+        }
+    },
+    "api": {
+        "header": {
+            "Accept": "application/hal+json;v=2.0",
+            "Connection": "keep-alive"
+        }
+    },
+    "mqtt": {
+        "broker": "dashpi.local",
+        "port": 1883,
+        "timeout": 60,
+        "qos": 1
+    }
+}

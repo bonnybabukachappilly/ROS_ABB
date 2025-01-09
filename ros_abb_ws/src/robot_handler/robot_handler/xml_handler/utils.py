@@ -1,10 +1,8 @@
-import json
 from typing import Any
 from xml.etree.ElementTree import Element
 
-from requests.models import Response
-
 from robot_handler.api_handler.models import APIClientModel, APIRequest
+from robot_handler.api_handler.utils import format_api_model
 from robot_handler.common.mappings import (
     ROBOT_ELOG_KEYS,
     ROBOT_ELOG_TYPE,
@@ -35,36 +33,6 @@ class ParserCollections:
                 An instance of the APIClientModel class.
         """
         self.__api: APIClientModel = api
-
-    def __format_data(
-            self, response: Response | None,
-            model: dict[str, str]) -> dict[str, Any] | None:
-        """
-        Formats the response data based on the provided model.
-
-        Args:
-            response (Response | None):
-                The response object containing the data.
-                model (dict[str, str]): The model to format the data.
-
-        Returns:
-            dict[str, Any] | None:
-                The processed data dictionary or None if the response is None
-                or the data is not available.
-        """
-        if response is None:
-            return None
-
-        decoded: Any = json.loads(response.text)
-        data: dict[str, str] | None = decoded.get('state')[0]
-
-        if data is None:
-            return None
-
-        processed_data: dict[str, Any] = {
-            value: data.get(key) for key, value in model.items()
-        }
-        return processed_data
 
     def state_parser(
         self, tag: str, et: Element, ns: dict[str, str]
@@ -129,7 +97,7 @@ class ParserCollections:
             expected_code=200
         )
 
-        data: dict[str, Any] | None = self.__format_data(
+        data: dict[str, Any] | None = format_api_model(
             self.__api.process_api_request(request),
             model=ROBOT_ELOG_KEYS
         )
@@ -168,7 +136,7 @@ class ParserCollections:
             expected_code=200
         )
 
-        return self.__format_data(
+        return format_api_model(
             self.__api.process_api_request(request),
             model=ROBOT_ENERGY
         )

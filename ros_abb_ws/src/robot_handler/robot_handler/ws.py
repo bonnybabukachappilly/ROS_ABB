@@ -61,7 +61,7 @@ class WSHandler(Node):
             qos_profile=10
         )
 
-        self.create_api()
+        self.__create_api()
 
         self.create_websocket(
             response=self.create_rws_subscription()
@@ -71,7 +71,7 @@ class WSHandler(Node):
     def ws_connection(self) -> WSConnection:
         return self.__ws_connection
 
-    def create_api(self) -> None:
+    def __create_api(self) -> None:
         """
         Creates an API connection using the provided base URL and
         authentication credentials. Sets the created API connection
@@ -117,6 +117,8 @@ class WSHandler(Node):
 
         ws_subscriptions: list[str] = self.get_parameter(  # type: ignore
             'websocket.subscriptions').get_parameter_value().string_array_value
+
+        get_logger().info(f'{ws_subscriptions = }')
 
         subscription_url: str = self.get_parameter(
             'urls.subscribe').get_parameter_value().string_value

@@ -9,10 +9,10 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description() -> LaunchDescription:
-    """Generate the launch description for the API service.
+    """Generate the launch description for the MQTT service.
 
     This function creates and configures the launch description for the
-    `api_service_handler` node, including loading parameters from a JSON file.
+    `mqtt_service_handler` node, including loading parameters from a JSON file.
 
     Returns:
         LaunchDescription: The launch description object.
@@ -31,22 +31,26 @@ def generate_launch_description() -> LaunchDescription:
         configuration: dict[str, Any] = json.load(config)
 
     node_config: dict[str, Any] = {
+        'mqtt.broker': configuration['mqtt']['broker'],
+        'mqtt.port': configuration['mqtt']['port'],
+        'mqtt.timeout': configuration['mqtt']['timeout'],
+        'mqtt.publish.telemetry': configuration['urls']['mqtt']['telemetry'],
+        'mqtt.publish.attribute': configuration['urls']['mqtt']['attribute'],
+        'mqtt.publish.qos': configuration['mqtt']['qos'],
         'urls.base_url': configuration['urls']['base_url'],
         'urls.system_info': configuration['urls']['system_info'],
-        'urls.subscribe': configuration['urls']['subscribe'],
-        'urls.joint_target': configuration['urls']['joint_target'],
-        'websocket.subscriptions': configuration['urls']['subscriptions'],
+        'api.header': json.dumps(configuration['api']['header']),
     }
 
-    api_service_handler = Node(
+    mqtt_service_handler = Node(
         package='robot_handler',
-        executable='api_service_handler',
-        name='api_service_handler',
+        executable='mqtt_service_handler',
+        name='mqtt_service_handler',
         parameters=[node_config],
         on_exit=Shutdown(),
     )
 
     # Add the node to the launch description
-    launch_dec.add_action(api_service_handler)
+    launch_dec.add_action(mqtt_service_handler)
 
     return launch_dec
