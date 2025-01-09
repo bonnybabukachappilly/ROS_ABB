@@ -5,7 +5,11 @@ logger: Logger
 
 
 def create_logger() -> None:
-    """Create a logger"""
+    """
+    Creates a logger with the name 'rws_client' and sets the log level.
+    Adds a StreamHandler to the logger and configures the formatter
+    for log messages.
+    """
     global logger
 
     logger = logging.getLogger('rws_client')
@@ -25,7 +29,13 @@ def create_logger() -> None:
 
 
 def get_logger() -> Logger:
-    """Returns the logger"""
+    """
+    Returns the logger instance.
+
+    Returns:
+        Logger:
+            The logger instance.
+    """
     global logger
 
     return logger

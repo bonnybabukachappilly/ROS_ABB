@@ -4,6 +4,20 @@ from robot_handler.api_handler.models import APIRequest
 
 
 def create_subscription(subscriptions: list[str], url: str) -> APIRequest:
+    """
+    Create a subscription request.
+
+    Args:
+        subscriptions (list[str]):
+            A list of subscriptions to be included in the request.
+        url (str):
+            The URL to send the subscription request to.
+
+    Returns:
+        APIRequest:
+            An APIRequest object representing the subscription request.
+
+    """
     _headers: dict[str, str] = {
         "Accept": "application/xhtml+xml;v=2.0",
         "Content-Type": "application/x-www-form-urlencoded;v=2.0",
