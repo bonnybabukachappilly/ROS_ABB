@@ -6,10 +6,11 @@ from requests.models import Response
 
 from robot_handler.api_handler.models import APIClientModel, APIRequest
 from robot_handler.api_handler.utils import format_api_model
+from robot_handler.common.logger import get_logger
 from robot_handler.common.mappings import ROBOT_INFO_MAPPING
 
 
-def get_robot_info(
+def publish_robot_info(
         api: APIClientModel,
         api_url: str, mqtt_url: str,
         qos: int,  client: Client) -> None:
@@ -52,3 +53,36 @@ def get_robot_info(
         payload=json.dumps(data),
         qos=1
     )
+
+
+class RPCHandler:
+    __slots__: list[str] = [
+        "__client",
+        "__topic",
+        "__qos"
+    ]
+
+    def __init__(self, client: Client, topic: str, qos: int) -> None:
+        self.__client: Client = client
+        self.__topic: str = topic
+        self.__qos: int = qos
+
+    def __get_handler(self, request: str):
+        match request:
+            case 'checkExecutionState':
+                return
+            case _:
+                raise ValueError('Invalid key')
+
+    def handle_request(self, request: str) -> None:
+        data = json.loads(request)
+        try:
+            self.__get_handler(request=data['method'])
+        except ValueError:
+            get_logger().info(f"Invalid RPC request: {data['method']}")
+
+        self.__client.publish(
+            topic=self.__topic,
+            payload=json.dumps({"checkStatus": True}),
+            qos=self.__qos
+        )

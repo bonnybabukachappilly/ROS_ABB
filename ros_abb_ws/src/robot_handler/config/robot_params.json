@@ -28,9 +28,14 @@
             "/rw/system/energy"
         ],
         "mqtt": {
-            "subscribe": "v1/devices/me/attributes/response/+",
-            "attribute": "v1/devices/me/attributes",
-            "telemetry": "v1/devices/me/telemetry"
+            "subscribe": {
+                "request": "v1/devices/me/rpc/request/+",
+                "response": "v1/devices/me/rpc/response/"
+            },
+            "publish": {
+                "attribute": "v1/devices/me/attributes",
+                "telemetry": "v1/devices/me/telemetry"
+            }
         }
     },
     "api": {

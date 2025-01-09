@@ -44,7 +44,7 @@ class UserPassAuth:
         Authenticates the MQTT client using the provided username and password.
 
         Args:
-            client (paho.mqtt.client.Client): The MQTT client to authenticate.
+            client (Client): The MQTT client to authenticate.
         """
         client.username_pw_set(self.username, self.password)
 
@@ -94,6 +94,10 @@ class MQTTClientModel(NamedTuple):
             The authentication details for the MQTT client.
         version (CallbackAPIVersion):
             The callback API version for the MQTT client.
+        sub_request (str):
+            The subscription request topic for the MQTT client.
+        sub_response (str):
+            The subscription response topic for the MQTT client.
     """
     broker: str
     port: int
@@ -101,6 +105,8 @@ class MQTTClientModel(NamedTuple):
     timeout: int
     auth: Authentication
     version: CallbackAPIVersion
+    sub_request: str
+    sub_response: str
 
 
 class MQTTAPIModel(NamedTuple):

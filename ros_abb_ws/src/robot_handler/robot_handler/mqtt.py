@@ -33,12 +33,16 @@ class MQTTServiceHandler(Node):
         self.declare_parameter('mqtt.broker', '')
         self.declare_parameter('mqtt.port', 0)
         self.declare_parameter('mqtt.timeout', 0)
-        self.declare_parameter('mqtt.publish.telemetry', '')
-        self.declare_parameter('mqtt.publish.attribute', '')
         self.declare_parameter('mqtt.publish.qos', 0)
         self.declare_parameter('urls.base_url', '')
         self.declare_parameter('urls.system_info', '')
         self.declare_parameter('api.header', "{}")
+        # Publish
+        self.declare_parameter('mqtt.publish.telemetry', '')
+        self.declare_parameter('mqtt.publish.attribute', '')
+        # Subscribe
+        self.declare_parameter('mqtt.subscribe.request', '')
+        self.declare_parameter('mqtt.subscribe.response', '')
 
         _: Subscription = self.create_subscription(
             msg_type=String,
@@ -131,6 +135,10 @@ class MQTTServiceHandler(Node):
             'mqtt.port').get_parameter_value().integer_value
         timeout: int = self.get_parameter(
             'mqtt.timeout').get_parameter_value().integer_value
+        sub_request: str = self.get_parameter(
+            'mqtt.subscribe.request').get_parameter_value().string_value
+        sub_response: str = self.get_parameter(
+            'mqtt.subscribe.response').get_parameter_value().string_value
 
         get_logger().info(
             f'Creating MQTT Client Model: {broker = }, {port = }, {timeout = }'
@@ -142,7 +150,9 @@ class MQTTServiceHandler(Node):
             client_id=mqtt_client_id,
             timeout=timeout,
             auth=auth,
-            version=CallbackAPIVersion.VERSION2
+            version=CallbackAPIVersion.VERSION2,
+            sub_request=sub_request,
+            sub_response=sub_response
         )
 
 

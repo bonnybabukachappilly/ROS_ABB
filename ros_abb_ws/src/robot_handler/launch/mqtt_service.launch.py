@@ -34,12 +34,19 @@ def generate_launch_description() -> LaunchDescription:
         'mqtt.broker': configuration['mqtt']['broker'],
         'mqtt.port': configuration['mqtt']['port'],
         'mqtt.timeout': configuration['mqtt']['timeout'],
-        'mqtt.publish.telemetry': configuration['urls']['mqtt']['telemetry'],
-        'mqtt.publish.attribute': configuration['urls']['mqtt']['attribute'],
         'mqtt.publish.qos': configuration['mqtt']['qos'],
         'urls.base_url': configuration['urls']['base_url'],
         'urls.system_info': configuration['urls']['system_info'],
         'api.header': json.dumps(configuration['api']['header']),
+
+        'mqtt.publish.telemetry': configuration['urls']['mqtt'][
+            'publish']['telemetry'],
+        'mqtt.publish.attribute': configuration['urls']['mqtt'][
+            'publish']['attribute'],
+        'mqtt.subscribe.request': configuration['urls']['mqtt'][
+            'subscribe']['request'],
+        'mqtt.subscribe.response': configuration['urls']['mqtt'][
+            'subscribe']['response'],
     }
 
     mqtt_service_handler = Node(
