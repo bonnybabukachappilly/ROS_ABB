@@ -202,7 +202,7 @@ class MQTTService:
 
         get_logger().info(f'{client_name} > {data}')
 
-        self.__rpc.handle_request(request=data)
+        self.__rpc.handle_request(request=message)
 
     def __on_disconnect(self, *args) -> None:
         """

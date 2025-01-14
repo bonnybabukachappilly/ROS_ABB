@@ -1,7 +1,8 @@
 import json
+from math import floor
 from typing import Any
 
-from paho.mqtt.client import Client
+from paho.mqtt.client import Client, MQTTMessage
 from requests.models import Response
 
 from robot_handler.api_handler.models import APIClientModel, APIRequest
@@ -69,20 +70,34 @@ class RPCHandler:
 
     def __get_handler(self, request: str):
         match request:
-            case 'checkExecutionState':
+            case 'setSpeed':
+                return
+            case 'seExecution':
+                return
+            case 'seMotor':
                 return
             case _:
                 raise ValueError('Invalid key')
 
-    def handle_request(self, request: str) -> None:
-        data = json.loads(request)
+    def handle_request(self, request: MQTTMessage) -> None:
+
+        topic = request.topic
+        payload = request.payload.decode()
+        data: dict[str, Any] = json.loads(payload)
+
+        message: dict[str, Any] = data
+        message['method'] = "setValue"
+
         try:
             self.__get_handler(request=data['method'])
         except ValueError:
             get_logger().info(f"Invalid RPC request: {data['method']}")
 
+        get_logger().info(f'Request > {payload}')
+        get_logger().info(f'Response < {message}')
+
         self.__client.publish(
-            topic=self.__topic,
-            payload=json.dumps({"checkStatus": True}),
+            topic=f'{self.__topic}{topic.split("/")[-1]}',
+            payload=json.dumps(message),
             qos=self.__qos
         )
